@@ -1,4 +1,4 @@
-# Convolution Implementation in C++ for 1x1 and 3x3 kernels
+# Convolution Implementation in C++ 
 The repository contains convolution implementation in C++. The python script is used for validation
 # Prequisites 
 - g++
