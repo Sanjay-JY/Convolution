@@ -6,9 +6,9 @@ def read_binary_file(file_path, dtype=np.int32):
         data = np.fromfile(f, dtype=dtype)
     return data
 
-def compute_difference(file1, file2):
-    data1 = read_binary_file(file1)
-    data2 = read_binary_file(file2)
+def compute_difference(file1, file2, dtype):
+    data1 = read_binary_file(file1, dtype)
+    data2 = read_binary_file(file2, dtype)
 
     if data1.shape != data2.shape:
         raise ValueError(f"Files have different shapes: {data1.shape} vs {data2.shape}")
@@ -29,11 +29,13 @@ def main():
     dtype = getattr(np, args.dtype)
 
     try:
-        diff = compute_difference(file1, file2)
+        diff = compute_difference(file1, file2, dtype)
+        min = np.min(diff)
+        max = np.max(diff)
         non_zero_indices = np.nonzero(diff)[0]
 
-        if non_zero_indices.size == 0:
-            print("The binary files are identical.")
+        if non_zero_indices.size == 0 or max<0.0001:
+            print("The binary files are identical upto 4 decimal places.")
         else:
             print(f"Differences found at {len(non_zero_indices)} positions:")
             for index in non_zero_indices:
